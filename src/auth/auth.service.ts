@@ -22,10 +22,11 @@ export class AuthService {
         data: {
           email: dto.email,
           hash: hash,
+          role: dto.role, // Add role to the user creation data
         },
       });
       delete user.hash;
-      return this.signToken(user.id, user.email);
+      return this.signToken(user.id, user.email, user.role); // Include role in the token payload
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
         if (error.code === 'P2002') {
@@ -50,15 +51,18 @@ export class AuthService {
 
     if (!pwMatches) throw new ForbiddenException('Credentials incorrect');
     delete user.hash;
-    return this.signToken(user.id, user.email);
+    return this.signToken(user.id, user.email, user.role); // Include role in the token payload
   }
+
   async signToken(
     userId: number,
     email: string,
+    role: string, // Add role parameter
   ): Promise<{ access_token: string }> {
     const payload = {
       sub: userId,
       email,
+      role, // Include role in the payload
     };
     const secret = this.config.get('JWT_SECRET');
 
