@@ -35,7 +35,7 @@ $ npm install
 ## Running the app
 
 ```bash
-# development
+# Run the development server
 $ npm run start
 
 # watch mode
@@ -43,6 +43,14 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# Create a docker container running the PostgreSQL database
+$ npm run db:dev:restart
+
+# Create a .env file and add:
+DATABASE_URL = <ur_postgresdb_url>
+JWT_SECRET = <ur_jwt_secret_key>
+
 ```
 
 ## Test
